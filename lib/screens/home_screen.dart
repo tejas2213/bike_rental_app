@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                           title: const Text('Sort by Rating (Highest)'),
                           trailing: currentSort == SortOption.ratingDesc ? const Icon(Icons.check) : null,
                           onTap: () {
-                            ref.read(sortOptionProvider.notifier).state = SortOption.ratingDesc;
+                            ref.read(sortOptionProvider.notifier).updateOption(SortOption.ratingDesc);
                             Navigator.pop(context);
                           },
                         ),
@@ -40,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
                           title: const Text('Sort by Price (Lowest)'),
                           trailing: currentSort == SortOption.priceAsc ? const Icon(Icons.check) : null,
                           onTap: () {
-                            ref.read(sortOptionProvider.notifier).state = SortOption.priceAsc;
+                            ref.read(sortOptionProvider.notifier).updateOption(SortOption.priceAsc);
                             Navigator.pop(context);
                           },
                         ),
@@ -48,7 +48,7 @@ class HomeScreen extends ConsumerWidget {
                           title: const Text('Sort by Price (Highest)'),
                           trailing: currentSort == SortOption.priceDesc ? const Icon(Icons.check) : null,
                           onTap: () {
-                            ref.read(sortOptionProvider.notifier).state = SortOption.priceDesc;
+                            ref.read(sortOptionProvider.notifier).updateOption(SortOption.priceDesc);
                             Navigator.pop(context);
                           },
                         ),
@@ -72,7 +72,7 @@ class HomeScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
-              onChanged: (value) => ref.read(searchQueryProvider.notifier).state = value,
+              onChanged: (value) => ref.read(searchQueryProvider.notifier).updateQuery(value),
               decoration: InputDecoration(
                 hintText: 'Search bikes...',
                 prefixIcon: const Icon(Icons.search),

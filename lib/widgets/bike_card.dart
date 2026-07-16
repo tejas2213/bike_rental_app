@@ -31,12 +31,15 @@ class BikeCard extends StatelessWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                child: CachedNetworkImage(
-                  imageUrl: bike.image,
-                  fit: BoxFit.contain, // contain because fake store images are varied sizes
-                  width: double.infinity,
-                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                child: Hero(
+                  tag: 'bike_image_${bike.id}',
+                  child: CachedNetworkImage(
+                    imageUrl: bike.image,
+                    fit: BoxFit.contain, // contain because fake store images are varied sizes
+                    width: double.infinity,
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
                 ),
               ),
             ),

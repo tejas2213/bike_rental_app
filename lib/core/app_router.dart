@@ -3,7 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../screens/login_screen.dart';
 import '../screens/otp_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/bike_details_screen.dart';
+import '../screens/booking_screen.dart';
+import '../screens/booking_success_screen.dart';
 import '../state_management/auth_provider.dart';
+import '../models/bike_model.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
@@ -31,6 +35,24 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/details',
+        builder: (context, state) {
+          final bike = state.extra as BikeModel;
+          return BikeDetailsScreen(bike: bike);
+        },
+      ),
+      GoRoute(
+        path: '/booking',
+        builder: (context, state) {
+          final bike = state.extra as BikeModel;
+          return BookingScreen(bike: bike);
+        },
+      ),
+      GoRoute(
+        path: '/booking-success',
+        builder: (context, state) => const BookingSuccessScreen(),
       ),
     ],
   );
