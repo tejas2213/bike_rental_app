@@ -5,28 +5,28 @@ final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
 });
 
-final authStateProvider = StateNotifierProvider<AuthNotifier, bool>((ref) {
-  final authService = ref.watch(authServiceProvider);
-  return AuthNotifier(authService);
-});
+final authStateProvider = NotifierProvider<AuthNotifier, bool>(AuthNotifier.new);
 
-class AuthNotifier extends StateNotifier<bool> {
-  final AuthService _authService;
-
-  AuthNotifier(this._authService) : super(false) {
+class AuthNotifier extends Notifier<bool> {
+  @override
+  bool build() {
     _checkStatus();
+    return false; // Initial state
   }
 
   Future<void> _checkStatus() async {
-    state = await _authService.checkLoginStatus();
+    final authService = ref.read(authServiceProvider);
+    state = await authService.checkLoginStatus();
   }
 
   Future<void> login(String mobileNumber) async {
-    await _authService.login(mobileNumber);
+    final authService = ref.read(authServiceProvider);
+    await authService.login(mobileNumber);
   }
 
   Future<bool> verifyOtp(String otp) async {
-    final success = await _authService.verifyOtp(otp);
+    final authService = ref.read(authServiceProvider);
+    final success = await authService.verifyOtp(otp);
     if (success) {
       state = true;
     }
@@ -34,7 +34,8 @@ class AuthNotifier extends StateNotifier<bool> {
   }
 
   Future<void> logout() async {
-    await _authService.logout();
+    final authService = ref.read(authServiceProvider);
+    await authService.logout();
     state = false;
   }
 }
