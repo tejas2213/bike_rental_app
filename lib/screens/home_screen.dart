@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../state_management/auth_provider.dart';
 import '../state_management/bike_provider.dart';
 import '../state_management/bike_list_provider.dart';
+import '../state_management/theme_provider.dart';
 import '../widgets/bike_card.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -18,45 +19,38 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Bike & Scooter Rental'),
         actions: [
-          IconButton(
+          PopupMenuButton<SortOption>(
             icon: const Icon(Icons.sort),
+            initialValue: currentSort,
+            onSelected: (SortOption result) {
+              ref.read(sortOptionProvider.notifier).updateOption(result);
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortOption>>[
+              CheckedPopupMenuItem<SortOption>(
+                value: SortOption.ratingDesc,
+                checked: currentSort == SortOption.ratingDesc,
+                child: const Text('Sort by Rating (Highest)'),
+              ),
+              CheckedPopupMenuItem<SortOption>(
+                value: SortOption.priceAsc,
+                checked: currentSort == SortOption.priceAsc,
+                child: const Text('Sort by Price (Lowest)'),
+              ),
+              CheckedPopupMenuItem<SortOption>(
+                value: SortOption.priceDesc,
+                checked: currentSort == SortOption.priceDesc,
+                child: const Text('Sort by Price (Highest)'),
+              ),
+            ],
+          ),
+          IconButton(
+            icon: Icon(
+              ref.watch(themeModeProvider) == ThemeMode.dark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return SafeArea(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          title: const Text('Sort by Rating (Highest)'),
-                          trailing: currentSort == SortOption.ratingDesc ? const Icon(Icons.check) : null,
-                          onTap: () {
-                            ref.read(sortOptionProvider.notifier).updateOption(SortOption.ratingDesc);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          title: const Text('Sort by Price (Lowest)'),
-                          trailing: currentSort == SortOption.priceAsc ? const Icon(Icons.check) : null,
-                          onTap: () {
-                            ref.read(sortOptionProvider.notifier).updateOption(SortOption.priceAsc);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          title: const Text('Sort by Price (Highest)'),
-                          trailing: currentSort == SortOption.priceDesc ? const Icon(Icons.check) : null,
-                          onTap: () {
-                            ref.read(sortOptionProvider.notifier).updateOption(SortOption.priceDesc);
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
+              ref.read(themeModeProvider.notifier).toggleTheme();
             },
           ),
           IconButton(

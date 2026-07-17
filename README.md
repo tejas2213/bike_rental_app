@@ -14,7 +14,7 @@ A complete Flutter application for a Bike & Scooter Rental Marketplace, built as
 *   **Routing**: `go_router` for seamless and declarative navigation.
 *   **Theme**: Light and Dark mode support out-of-the-box.
 *   **Image Caching**: Optimized images using `cached_network_image`.
-*   **Map Integration**: Placeholder map using `google_maps_flutter`.
+*   **Map Integration**: Real map integration using `google_maps_flutter`.
 
 ## Packages Used
 
@@ -68,7 +68,7 @@ lib/
     ```bash
     flutter run
     ```
-    *Note: To fully utilize Google Maps, ensure you provide a valid Google Maps API Key in `android/app/src/main/AndroidManifest.xml` and `ios/Runner/AppDelegate.swift`. A placeholder layout is used for demonstration.*
+    *Note: To fully utilize Google Maps, ensure you provide a valid Google Maps API Key in `android/app/src/main/AndroidManifest.xml` and `ios/Runner/AppDelegate.swift`.*
 
 ## Screenshots
 
